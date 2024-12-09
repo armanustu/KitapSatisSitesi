@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a  class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+       
+    <li class="nav-item">
+            <a class="btn btn-outline-primary" asp-area="Identity" asp-page="/Account/Register" style="margin-right:0.5rem;"><i class="bi bi-person-circle">Üye ol</i></a>
+    </li>
+    <li class="nav-item">
+            <a class="btn btn-outline-success" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-right">Login</i></a>
+    </li>
+    <li class="nav-item">
+            <form class="d-flex" role="search" action="/Customer/Home/Search">
+                <input class="form-control me-2" name="q" type="text" placeholder="Arama" aria-label="Search" style="height:40px;margin-left:0.2rem">
+                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search">Ara</i></button>
+            </form>
+        </li>
+}
+    
+</ul>
+
+
+
+

@@ -1,0 +1,123 @@
+﻿@page
+@model RegisterModel
+@using OrnekEticaretsitesi.Areas.Admin.Models
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>@*
+//Bütün Propertyler inputmodelin inputuna bağlı olduğu için input.Name,input.Surname şeklinde değerleri alıyoruz*@
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Kayıt Formu</h2>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Input.Name" class="form-control"  placeholder="İsim giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.Surname" class="form-control"  placeholder="Soyisim giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.Surname" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input asp-for="Input.Email" class="form-control"  placeholder="Email giriniz" />
+              @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.TelefonNo" class="form-control"  placeholder="Telefon no giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.TelefonNo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Input.Adres" class="form-control"  placeholder="Adres giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.Adres" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Input.Semt" class="form-control"   placeholder="Semt giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.Semt" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Input.Sehir" class="form-control"  placeholder="Sehir giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.Sehir" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Input.PostalKodu" class="form-control" placeholder="Postal kod giriniz" />
+                @*  <label asp-for="Input.Email">Email</label>*@
+                <span asp-validation-for="Input.PostalKodu" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre giriniz" />
+             @*   <label asp-for="Input.Password">Password</label>*@
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Tekrar şifre giriniz" />
+                @*<label asp-for="Input.ConfirmPassword">Confirm Password</label>*@
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+
+
+            @if(User.IsInRole(Diger.Role_Admin))
+            {
+                <div class="form-group">
+                    @Html.DropDownListFor(m=>m.Input.Role,Model.Input.Roleİst,"Role Seç",new {@class="form-control"})
+
+                </div>
+            }
+
+
+
+
+            <button id="registerSubmit" type="submit" class="btn btn-success form-control"><i class="bi bi-person-circle">Üye ol</i></button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to register.</h3>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                            about setting up this ASP.NET application to support logging in via external services</a>.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

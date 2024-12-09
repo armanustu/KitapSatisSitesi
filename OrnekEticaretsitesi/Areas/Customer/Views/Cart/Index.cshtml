@@ -1,0 +1,96 @@
+﻿@model OrnekEticaretsitesi.Areas.Admin.Models.shoppingCartVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form mthod="post">
+    @if (Model.ListCart.Count() > 0)
+    {
+        <div class="container">
+            <div class="row">
+                <br />
+                <div class="col-md-12">
+                    <table class="table table-strip table-bordered" id="DataTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Resim
+                                </th>
+                                <th>
+                                    Başlık
+                                </th>
+                                <th>id</th>
+                                <th>
+                                    Adet
+                                </th>
+                                <th>
+                                    Fiyat
+                                </th>
+                                <th>Tutar</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListCart)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.Product.Image" width="60">
+                                    </td>
+                                    <td>@item.Product.Title</td>
+                                    <td>@item.ProductID</td>
+                                    <td>
+                                        <div class="btn-group me-2" role="group" aria-label="First group">
+                                               <input type="text" style="max-width:45px" class="form-control" value="@item.Count">
+                                            <button asp-area="Customer" asp-action="Decrease" asp-controller="Cart" asp-route-id="@item.ProductID" class="btn btn-danger"><i class="bi bi-dash"></i></button>
+                                            <button asp-area="Customer" asp-action="Add" asp-controller="Cart" asp-route-id="@item.ProductID" class="btn btn-primary"><i class="bi bi-plus"></i></button>
+
+                                            <button asp-action="Remove" asp-route-id="@item.ProductID" class="btn btn-primary"><i class="bi bi-trash3"></i></button>
+                                            </div>
+                                    </td>
+                                    <td>@item.Product.Price.ToString("0.00")TL</td>
+                                    <td>
+                                        @((item.Count * item.Product.Price).ToString("0.00"))TL
+                                    </td>
+                                </tr>
+                              
+                            }
+                            <tr>
+                                <td colspan="4" style="text-align:right">
+
+                                    <strong>TOPLAM TUTAR</strong>
+                                </td>
+                                <td style="background-color:darkred">
+                                    <span style="font-size:large;color:white">@Model.OrderHeader.OrderTotal.ToString("0.00")Tl</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-primary form-control">Alış verişe devam et</a>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Sipariş ver</a>
+                          @*  @if (!Model.OrderHeader.ApplicationUser.EmailConfirmed)
+                            {
+                               <div type="submit" class="btn btn-warning form-control text-white">Emaili onaylamak için tıklayınız</div> 
+                            }
+                            else{
+                           
+                            }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>Sepetinizde Ürün bulunmamaktadır</div>
+    }
+   
+</form>
+

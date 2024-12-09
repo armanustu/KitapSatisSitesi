@@ -1,0 +1,13 @@
+﻿@model IEnumerable<OrnekEticaretsitesi.Areas.Admin.Models.Category>
+<div class="col-md-3">     
+            <ul class="list-group">
+                <li class="list-group-item active" aria-current="true">Tüm ürünler</li>
+                @foreach (var item in Model)
+                {
+            <a asp-area="Customer" asp-action="CategoryDetails" asp-controller="Home" asp-route-id="@item.CategoryID" class="list-group-item list-group-item-action" onMouseOver="this.style.color=#ff0000"
+               onMouseOut="this.style.color='#00F'">@item.CategoryName</a>
+                   
+                }                      
+             </ul>
+</div>
+

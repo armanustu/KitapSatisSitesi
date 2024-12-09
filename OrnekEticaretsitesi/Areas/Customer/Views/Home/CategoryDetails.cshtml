@@ -1,0 +1,31 @@
+﻿@model IEnumerable<OrnekEticaretsitesi.Areas.Admin.Models.Product>
+@{
+    ViewData["Title"] = "CategoryDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @await Component.InvokeAsync("CategoryList")
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        @item.Title
+                    </div>
+                    <img src="@item.Image" class="card-img-top" alt="..." style="height:350px;width:300px">
+                    <div class="card-body">
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                    <div class="card-footer">
+                        <label style="font-size:20px;color:crimson"><b>@item.Price.ToString("0.00")TL</b></label>
+                        <a asp-area="Customer" asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductID" class="btn btn-outline-info" style="float:right">Detay</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
